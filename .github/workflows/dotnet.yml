@@ -11,6 +11,19 @@ env:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    services:
+      psql:
+        image: postgres:13-alpine
+        env:
+          POSTGRES_PASSWORD: testpass123
+          POSTGRES_DB: personalwebapi_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -21,8 +34,14 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Migrate DB
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet ef database update
     - name: Test
       run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      env:
+        ConnectionStrings__Default: "Host=localhost;Database=personalwebapi_test;Username=postgres;Password=testpass123"
     - name: Report Codecov
       run: bash <(curl -s https://codecov.io/bash)
   build-docker-test:
