@@ -37,7 +37,8 @@ jobs:
     - name: Migrate DB
       run: |
         dotnet tool install --global dotnet-ef
-        dotnet ef database update
+        dotnet tool restore
+        dotnet ef database update --project PersonalWebApi
     - name: Test
       run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
