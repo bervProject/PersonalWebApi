@@ -8,6 +8,7 @@ on:
     branches: [ master ]
 env:
   IMAGE_NAME: personalwebapi
+  ConnectionStrings__Default: "Host=localhost;Database=personalwebapi_test;Username=postgres;Password=testpass123"
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -41,8 +42,6 @@ jobs:
         dotnet ef database update --project PersonalWebApi
     - name: Test
       run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage"
-      env:
-        ConnectionStrings__Default: "Host=localhost;Database=personalwebapi_test;Username=postgres;Password=testpass123"
     - name: Report Codecov
       run: bash <(curl -s https://codecov.io/bash)
   build-docker-test:
