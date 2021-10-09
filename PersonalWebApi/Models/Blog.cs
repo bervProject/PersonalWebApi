@@ -1,10 +1,8 @@
-
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PersonalWebApi.Models
 {
-    public class Blog : Auditable
+    public class Blog : DefaultModel
     {
         [Required]
         [MaxLength(1024)]
@@ -14,7 +12,7 @@ namespace PersonalWebApi.Models
         [MaxLength(128)]
         [Required]
         public string Icon { get; set; }
-        [MaxLength(1024)]
+        [MaxLength(2048)]
         [Required]
         public string Link { get; set; }
     }

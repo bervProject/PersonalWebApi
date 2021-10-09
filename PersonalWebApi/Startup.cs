@@ -10,6 +10,7 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using PersonalWebApi.EntityFramework;
 using PersonalWebApi.Models;
+using PersonalWebApi.Repositories;
 
 namespace PersonalWebApi
 {
@@ -29,8 +30,11 @@ namespace PersonalWebApi
             {
                 options.UseNpgsql(Configuration.GetConnectionString("Default"));
             });
+            services.AddScoped<BlogRepositories>();
+            services.AddScoped<ExperienceRepositories>();
+            services.AddScoped<ProjectRepositories>();
             services.AddControllers()
-                .AddOData(opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand());
+                .AddOData(opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand().Count());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PersonalWebApi", Version = "v1" });
@@ -63,6 +67,8 @@ namespace PersonalWebApi
         {
             ODataConventionModelBuilder builder = new();
             builder.EntitySet<Blog>("Blogs");
+            builder.EntitySet<Experience>("Experiences");
+            builder.EntitySet<Project>("Projects");
             return builder.GetEdmModel();
         }
     }
