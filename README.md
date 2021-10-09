@@ -1,5 +1,7 @@
 # Personal Web API (REVAMP)
 
+[![codecov](https://codecov.io/gh/bervProject/PersonalWebApi/branch/main/graph/badge.svg?token=8gfmRLtANZ)](https://codecov.io/gh/bervProject/PersonalWebApi)
+
 Personal Web API use .NET and OData (to help me for queries).
 
 ## Database Design
