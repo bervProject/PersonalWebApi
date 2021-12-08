@@ -8,12 +8,12 @@ using Xunit;
 
 namespace PersonalWebApi.Integration.Test
 {
-    public class ProjectsControllerTest : IClassFixture<WebApplicationFactory<Startup>>
+    public class ProjectsControllerTest : IClassFixture<WebApplicationFactory<Program>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        private readonly WebApplicationFactory<Program> _factory;
         private readonly string _baseUrl = "/v1/Projects";
 
-        public ProjectsControllerTest(WebApplicationFactory<Startup> factory)
+        public ProjectsControllerTest(WebApplicationFactory<Program> factory)
         {
             _factory = factory;
         }
