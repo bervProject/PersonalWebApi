@@ -57,6 +57,35 @@ namespace PersonalWebApi.Repositories
             return existing;
         }
 
+        public async Task<TEntity> Put(Guid key, TEntity updatedData)
+        {
+            if (key != updatedData.Id)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            _dbContext.Entry(updatedData).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DataNotExists(key))
+                {
+                    throw new EntityNotFoundException();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return updatedData;
+        }
+
+
         public async Task Delete(Guid key)
         {
             var existing = GetOrException(key);

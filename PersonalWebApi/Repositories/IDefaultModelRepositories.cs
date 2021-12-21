@@ -13,6 +13,7 @@ namespace PersonalWebApi.Repositories
         TEntity Get(Guid key);
         Task<TEntity> Create(TEntity data);
         Task<TEntity> Patch(Guid key, Delta<TEntity> updatedData);
+        Task<TEntity> Put(Guid key, TEntity updatedData);
         Task Delete(Guid key);
     }
 }

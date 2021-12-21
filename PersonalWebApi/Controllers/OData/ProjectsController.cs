@@ -1,7 +1,7 @@
 ﻿using PersonalWebApi.Models;
 using PersonalWebApi.Repositories;
 
-namespace PersonalWebApi.Controllers
+namespace PersonalWebApi.Controllers.OData
 {
     public class ProjectsController : DefaultController<Project, ProjectRepositories>
     {

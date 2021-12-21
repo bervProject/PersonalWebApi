@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
 using PersonalWebApi.Models;
 using PersonalWebApi.Repositories;
 
 namespace PersonalWebApi.Controllers
 {
-    public class BlogsController : DefaultController<Blog, BlogRepositories>
+    [Route("/api/[controller]/[action]")]
+    [ApiController]
+    public class BlogsController : DefaultRestController<Blog, BlogRepositories>
     {
         public BlogsController(BlogRepositories repo) : base(repo)
         {
