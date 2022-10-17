@@ -29,6 +29,7 @@ builder.Services.AddDbContext<PersonalWebApiContext>(options =>
 builder.Services.AddScoped<BlogRepositories>();
 builder.Services.AddScoped<ExperienceRepositories>();
 builder.Services.AddScoped<ProjectRepositories>();
+builder.Services.AddHealthChecks();
 builder.Services.AddControllers()
     .AddOData(opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand().Count());
 builder.Services.AddSwaggerGen(c =>
@@ -50,6 +51,8 @@ app.UseODataBatching();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseHealthChecks("/healtz");
 
 app.UseEndpoints(endpoints =>
 {

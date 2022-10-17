@@ -23,7 +23,7 @@ namespace PersonalWebApi.Integration.Test
         {
             var client = _factory.CreateClient();
             var response = await client.GetAsync(_baseUrl);
-            response.EnsureSuccessStatusCode();
+            Assert.True(response.IsSuccessStatusCode);
             var bodyResponse = await response.Content.ReadFromJsonAsync<ODataListResponse<Blog>>();
             var emptyResult = new List<Blog>();
             Assert.Equal(emptyResult, bodyResponse.Value);

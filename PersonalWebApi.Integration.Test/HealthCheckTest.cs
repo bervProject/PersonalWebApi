@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using PersonalWebApi.Integration.Test.Models;
 using PersonalWebApi.Models;
+using System;
 using System.Collections.Generic;
-using System.Net.Http.Json;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace PersonalWebApi.Integration.Test
 {
-    public class ProjectsControllerTest : IClassFixture<WebApplicationFactory<Program>>
+    public class HealthCheckTest : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
-        private readonly string _baseUrl = "/v1/Projects";
+        private readonly string _baseUrl = "/healtz";
 
-        public ProjectsControllerTest(WebApplicationFactory<Program> factory)
+        public HealthCheckTest(WebApplicationFactory<Program> factory)
         {
             _factory = factory;
         }
@@ -24,9 +26,8 @@ namespace PersonalWebApi.Integration.Test
             var client = _factory.CreateClient();
             var response = await client.GetAsync(_baseUrl);
             Assert.True(response.IsSuccessStatusCode);
-            var bodyResponse = await response.Content.ReadFromJsonAsync<ODataListResponse<Project>>();
-            var emptyResult = new List<Project>();
-            Assert.Equal(emptyResult, bodyResponse.Value);
+            var bodyResponse = await response.Content.ReadAsStringAsync();
+            Assert.Equal("Healthy", bodyResponse);
         }
     }
 }
