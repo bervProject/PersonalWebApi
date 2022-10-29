@@ -54,10 +54,7 @@ app.UseAuthorization();
 
 app.UseHealthChecks("/healtz");
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
 
 app.Run();
 
