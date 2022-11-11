@@ -100,5 +100,31 @@ namespace PersonalWebApi.Integration.Test
             Assert.True(response.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
+        
+        [Fact]
+        public async Task DeleteTest()
+        {
+            var newBlog = new Blog
+            {
+                Title = "My Blog",
+                Description = "Hello My Blog",
+                Icon = "b-icon",
+                Link = "https://test.com",
+                CreateBy = "Test",
+                CreatedDate = new DateTimeOffset()
+            };
+            var response = await _httpClient.PostAsJsonAsync(_baseUrl, newBlog);
+            Assert.True(response.IsSuccessStatusCode);
+            var bodyResponse = await response.Content.ReadFromJsonAsync<Blog>();
+            Assert.NotNull(bodyResponse);
+            Assert.Equal("My Blog", bodyResponse.Title);
+            Assert.Equal("Hello My Blog", bodyResponse.Description);
+            Assert.Equal("b-icon", bodyResponse.Icon);
+            Assert.Equal("https://test.com", bodyResponse.Link);
+            Assert.NotEqual(Guid.Empty, bodyResponse.Id);
+            response = await _httpClient.DeleteAsync($"{_baseUrl}/{bodyResponse.Id}");
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
     }
 }
