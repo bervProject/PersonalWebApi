@@ -74,6 +74,21 @@ namespace PersonalWebApi.Integration.Test
         }
         
         [Fact]
+        public async Task PostInvalidTest()
+        {
+            var newBlog = new Blog
+            {
+                Title = "My Blog",
+                Description = "Hello My Blog",
+                Icon = "b-icon",
+                Link = "https://test.com",
+            };
+            var response = await _httpClient.PostAsJsonAsync(_baseUrl, newBlog);
+            Assert.False(response.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+        
+        [Fact]
         public async Task PatchTest()
         {
             var newBlog = new Blog
