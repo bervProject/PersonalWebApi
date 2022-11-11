@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 static IEdmModel GetEdmModel()
 {
     ODataConventionModelBuilder builder = new();
+    builder.EntityType<DefaultModel>();
     builder.EntitySet<Blog>("Blogs");
     builder.EntitySet<Experience>("Experiences");
     builder.EntitySet<Project>("Projects");
@@ -32,10 +33,8 @@ builder.Services.AddScoped<ProjectRepositories>();
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers()
     .AddOData(opt => opt.AddRouteComponents("v1", GetEdmModel()).Filter().Select().Expand().Count());
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PersonalWebApi", Version = "v1" });
-});
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -43,7 +42,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalWebApi v1"));
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PersonalWebApi.Models
 {
-    public class Experience : DefaultModel
+    public record Experience : DefaultModel
     {
         [MaxLength(1024)]
         [Required]

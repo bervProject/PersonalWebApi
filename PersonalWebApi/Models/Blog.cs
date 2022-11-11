@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PersonalWebApi.Models
 {
-    public class Blog : DefaultModel
+    public record Blog : DefaultModel
     {
         [Required]
         [MaxLength(1024)]

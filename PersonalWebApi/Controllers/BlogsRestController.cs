@@ -6,9 +6,9 @@ namespace PersonalWebApi.Controllers
 {
     [Route("/api/[controller]/[action]")]
     [ApiController]
-    public class BlogsController : DefaultRestController<Blog, BlogRepositories>
+    public class BlogsRestController : DefaultRestController<Blog, BlogRepositories>
     {
-        public BlogsController(BlogRepositories repo) : base(repo)
+        public BlogsRestController(BlogRepositories repo) : base(repo)
         {
         }
     }
