@@ -3,14 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PersonalWebApi.Models
 {
-    public abstract class DefaultModel : IAuditable, IDraftable
+    public abstract record DefaultModel : IAuditable, IDraftable
     {
         public Guid Id { get; set; }
         [Required]
         [MaxLength(216)]
-        /**
-        * Created By to persist username of creator
-        */
         public string CreateBy { get; set; }
         [Required]
         public DateTimeOffset CreatedDate { get; set; }

@@ -2,7 +2,7 @@
 
 namespace PersonalWebApi.Models
 {
-    public class Project : DefaultModel
+    public record Project : DefaultModel
     {
         [MaxLength(1024)]
         [Required]

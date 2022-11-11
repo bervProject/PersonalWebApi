@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Formatter;
@@ -6,17 +8,16 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using PersonalWebApi.Models;
 using PersonalWebApi.Repositories;
-using System;
-using System.Threading.Tasks;
 
-namespace PersonalWebApi.Controllers
+namespace PersonalWebApi.Controllers.OData
 {
     public abstract class DefaultController<TEntity, TRepository> : ODataController
-        where TEntity : class, IAuditable
+        where TEntity : class, IAuditable, new()
         where TRepository : IDefaultModelRepositories<TEntity>
     {
         private readonly TRepository _repository;
-        public DefaultController(TRepository repository)
+
+        protected DefaultController(TRepository repository)
         {
             _repository = repository;
         }
@@ -36,6 +37,14 @@ namespace PersonalWebApi.Controllers
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] TEntity entity)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            if (entity == null)
+            {
+                return BadRequest();
+            }
             var createdData = await _repository.Create(entity);
             return Created(createdData);
         }
