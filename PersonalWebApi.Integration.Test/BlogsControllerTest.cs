@@ -89,6 +89,40 @@ namespace PersonalWebApi.Integration.Test
         }
         
         [Fact]
+        public async Task GetByIdTest()
+        {
+            var newBlog = new Blog
+            {
+                Title = "My Blog",
+                Description = "Hello My Blog",
+                Icon = "b-icon",
+                Link = "https://test.com",
+                CreateBy = "Test",
+                CreatedDate = new DateTimeOffset()
+            };
+            var response = await _httpClient.PostAsJsonAsync(_baseUrl, newBlog);
+            Assert.True(response.IsSuccessStatusCode);
+            var bodyResponse = await response.Content.ReadFromJsonAsync<Blog>();
+            Assert.NotNull(bodyResponse);
+            Assert.Equal("My Blog", bodyResponse.Title);
+            Assert.Equal("Hello My Blog", bodyResponse.Description);
+            Assert.Equal("b-icon", bodyResponse.Icon);
+            Assert.Equal("https://test.com", bodyResponse.Link);
+            Assert.NotEqual(Guid.Empty, bodyResponse.Id);
+            newBlog.Id = bodyResponse.Id;
+            newBlog.Description = "Updated";
+            response = await _httpClient.GetAsync($"{_baseUrl}/{bodyResponse.Id}");
+            Assert.True(response.IsSuccessStatusCode);
+            bodyResponse = await response.Content.ReadFromJsonAsync<Blog>();
+            Assert.NotNull(bodyResponse);
+            Assert.Equal("My Blog", bodyResponse.Title);
+            Assert.Equal("Hello My Blog", bodyResponse.Description);
+            Assert.Equal("b-icon", bodyResponse.Icon);
+            Assert.Equal("https://test.com", bodyResponse.Link);
+            Assert.NotEqual(Guid.Empty, bodyResponse.Id);
+        }
+        
+        [Fact]
         public async Task PatchTest()
         {
             var newBlog = new Blog
